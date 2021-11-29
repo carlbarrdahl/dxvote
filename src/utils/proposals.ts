@@ -43,7 +43,7 @@ export const isWinningVote = (
   proposal: Proposal,
   vote: Vote | Stake
 ): boolean => {
-  return proposal.winningVote === vote.vote;
+  return parseInt(proposal.winningVote) === vote.vote;
 };
 export const calculateStakes = function (
   thresholdConst,

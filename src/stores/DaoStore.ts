@@ -320,7 +320,9 @@ export default class DaoStore {
               bnum(vote.amount)
             );
           }
-          if (cache.proposals[vote.proposalId].winningVote === vote.vote) {
+          if (
+            parseInt(cache.proposals[vote.proposalId].winningVote) === vote.vote
+          ) {
             users[vote.voter].correctVotes++;
             users[vote.voter].totalVoted = users[vote.voter].totalVoted.plus(
               bnum(vote.amount)
@@ -363,7 +365,10 @@ export default class DaoStore {
             );
           }
 
-          if (cache.proposals[stake.proposalId].winningVote === stake.vote) {
+          if (
+            parseInt(cache.proposals[stake.proposalId].winningVote) ===
+            stake.vote
+          ) {
             users[stake.staker].correctStakes++;
             users[stake.staker].totalStaked = users[
               stake.staker
@@ -915,15 +920,21 @@ export default class DaoStore {
           isWinningVote(proposal, stake))
       ) {
         redeemsLeft.stake.push(stake.proposalId);
+        console.log('push stake');
+        console.log({ stake });
+        console.log({ proposal });
         if (
           proposal.stateInVotingMachine ===
             VotingMachineProposalState.Executed &&
-          proposal.winningVote === 1
+          proposal.winningVote === '1'
         ) {
+          console.log('hereeeeee');
+          console.log({ stake });
           redeemsLeft.bounty.push(stake.proposalId);
         }
       }
     });
+    console.log({ redeemsLeft });
     // Remove already redeemed
     userEvents.redeemsRep.map(redeemRep => {
       if (redeemsLeft.rep.indexOf(redeemRep.proposalId) > -1)
@@ -939,6 +950,8 @@ export default class DaoStore {
           1
         );
     });
+    console.log('userEvents.redeemsDaoBounty');
+    console.log(userEvents.redeemsDaoBounty);
     userEvents.redeemsDaoBounty.map(redeemDaoBounty => {
       if (redeemsLeft.bounty.indexOf(redeemDaoBounty.proposalId) > -1)
         redeemsLeft.bounty.splice(

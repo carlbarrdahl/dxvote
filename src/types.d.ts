@@ -130,7 +130,7 @@ declare global {
     stateInVotingMachine: VotingMachineProposalState;
     descriptionHash: string;
     creationEvent: BlockchainEvent;
-    winningVote: number;
+    winningVote: string;
     proposer: string;
     currentBoostedVotePeriodLimit: BigNumber;
     paramsHash: string;
