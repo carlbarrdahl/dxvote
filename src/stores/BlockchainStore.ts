@@ -300,6 +300,7 @@ export default class BlockchainStore {
         if (!this.initialLoadComplete) {
           notificationStore.setGlobalError(true, (error as Error).message);
         } else {
+          console.log({ error });
           throw new CacheLoadError(error.message);
         }
         this.activeFetchLoop = false;

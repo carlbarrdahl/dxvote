@@ -15,6 +15,7 @@ import { useMemo } from 'react';
 import Avatar from '../Avatar';
 import { DEFAULT_ETH_CHAIN_ID } from '../../../provider/connectors';
 import { shortenAddress } from '../../../utils';
+import useVotingSummaryHook from 'hooks/Guilds/useVotingSummaryHook';
 
 const CardWrapper = styled(Box)`
   border: 1px solid ${({ theme }) => theme.colors.muted};
@@ -105,6 +106,8 @@ interface ProposalCardProps {
 const ProposalCard: React.FC<ProposalCardProps> = ({ id, href }) => {
   const { guild_id: guildId } = useParams<{ guild_id?: string }>();
   const { data: proposal } = useProposal(guildId, id);
+  const { votes } = useVotingSummaryHook(guildId, id);
+  console.log({ votes });
   const { avatarUri, imageUrl, ensName } = useENSAvatar(
     proposal?.creator,
     DEFAULT_ETH_CHAIN_ID
@@ -120,6 +123,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ id, href }) => {
       return null;
     }
   }, [imageUrl, ensName, avatarUri]);
+  console.log({ proposal });
 
   return (
     <UnstyledLink to={href || '#'}>
@@ -170,11 +174,14 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ id, href }) => {
             )}
           </BorderedIconDetailWrapper>
           <BorderedIconDetailWrapper>
-            <Detail>15.60%</Detail>
+            <Detail>{votes[0]?.toString()}</Detail>
+            {votes.forEach(vote => {
+              return <Detail>{vote?.toString()}</Detail>;
+            })}
             <Icon as="div" spaceLeft spaceRight>
               <FiCircle />
             </Icon>
-            <Detail>5.25%</Detail>
+            <Detail>{votes[2]?.toString()}</Detail>
           </BorderedIconDetailWrapper>
         </CardFooter>
       </CardWrapper>
